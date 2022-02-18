@@ -20,14 +20,17 @@ function App() {
 			...selectedEngine,
 			[name]: value,
 		});
-		console.log(selectedEngine);
 	};
 
 	const [insertModal, setInsertModal] = useState(false);
 	const [editModal, setEditModal] = useState(false);
 
-	const openCloseModalInsert = () => {
+	const openCloseInsertModal = () => {
 		setInsertModal(!insertModal);
+	};
+
+	const openCloseEditModal = () => {
+		setEditModal(!editModal);
 	};
 
 	const baseUrl = "https://localhost:44383/api/engine/";
@@ -50,11 +53,37 @@ function App() {
 			.post(baseUrl, selectedEngine)
 			.then((response) => {
 				setData(data.concat(response.data));
-				openCloseModalInsert();
+				openCloseInsertModal();
 			})
 			.catch((error) => {
 				console.log(error);
 			});
+	};
+
+	const putData = async () => {
+		selectedEngine.launched = parseInt(selectedEngine.launched);
+		await axios
+			.put(baseUrl + selectedEngine.id, selectedEngine)
+			.then((response) => {
+				var resp = response.data;
+				var tmpData = data;
+				tmpData.map((engine) => {
+					if (engine.id === selectedEngine.id) {
+						engine.name = resp.name;
+						engine.launched = resp.launched;
+						engine.developer = resp.developer;
+					}
+				});
+				openCloseEditModal();
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	};
+
+	const selectEngine = (engine, operation) => {
+		setSelectedEngine(engine);
+		operation === "Edit" && openCloseEditModal();
 	};
 
 	useEffect(() => {
@@ -68,9 +97,9 @@ function App() {
 				<br />
 				<button
 					className="btn btn-success"
-					onClick={() => openCloseModalInsert()}
+					onClick={() => openCloseInsertModal()}
 				>
-					Add New Db Engine
+					Add Engine
 				</button>
 				<h2>List of Database Engine</h2>
 				<table className="table stripped hover responsible table-light">
@@ -91,7 +120,13 @@ function App() {
 								<td>{engine.launched}</td>
 								<td>{engine.developer}</td>
 								<td>
-									<button className="btn btn-primary">Edit</button> {"   "}
+									<button
+										className="btn btn-primary"
+										onClick={() => selectEngine(engine, "Edit")}
+									>
+										Edit
+									</button>{" "}
+									{"   "}
 									<button className="btn btn-danger">Delete</button>
 								</td>
 							</tr>
@@ -140,14 +175,14 @@ function App() {
 					{"   "}
 					<button
 						className="btn btn-danger"
-						onClick={() => openCloseModalInsert()}
+						onClick={() => openCloseInsertModal()}
 					>
 						Cancel
 					</button>
 				</ModalFooter>
 			</Modal>
 
-			<Modal isOpen={insertModal}>
+			<Modal isOpen={editModal}>
 				<ModalHeader>Edit Database Engine </ModalHeader>
 				<ModalBody>
 					<div className="formgroup">
@@ -157,8 +192,8 @@ function App() {
 							type="text"
 							className="form-control"
 							name="id"
+							value={selectedEngine && selectedEngine.id}
 							readOnly
-							onChange={handleChange}
 						/>
 						<label> Name: </label>
 						<br />
@@ -166,6 +201,7 @@ function App() {
 							type="text"
 							className="form-control"
 							name="name"
+							value={selectedEngine && selectedEngine.name}
 							onChange={handleChange}
 						/>
 						<br />
@@ -176,6 +212,7 @@ function App() {
 							className="form-control"
 							name="launched"
 							onChange={handleChange}
+							value={selectedEngine && selectedEngine.launched}
 						/>
 						<br />
 						<label> Developer: </label>
@@ -184,19 +221,19 @@ function App() {
 							type="text"
 							className="form-control"
 							name="developer"
+							value={selectedEngine && selectedEngine.developer}
 							onChange={handleChange}
 						/>
 						<br />
 					</div>
 				</ModalBody>
 				<ModalFooter>
-					<button className="btn btn-primary" onClick={() => postData()}>
-						Add New ITem
+					<button className="btn btn-primary" onClick={() => putData()}>
+						Save
 					</button>{" "}
-					{"   "}
 					<button
 						className="btn btn-danger"
-						onClick={() => openCloseModalInsert()}
+						onClick={() => openCloseEditModal()}
 					>
 						Cancel
 					</button>
