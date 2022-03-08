@@ -1,17 +1,14 @@
 import React from "react";
-import putData from "../Services/axios";
 
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
-const Edit = () => {
-	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setSelectedEngine({
-			...selectedEngine,
-			[name]: value,
-		});
-	};
-	const [editModal, setEditModal] = useState(false);
+const ModalEdit = ({
+	editModal,
+	openCloseEditModal,
+	selectedEngine,
+	putData,
+	handleChange,
+}) => {
 	return (
 		<Modal isOpen={editModal}>
 			<ModalHeader>Edit Database Engine </ModalHeader>
@@ -70,4 +67,4 @@ const Edit = () => {
 	);
 };
 
-export default Edit;
+export default ModalEdit;
