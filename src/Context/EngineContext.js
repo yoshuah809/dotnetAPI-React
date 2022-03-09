@@ -4,11 +4,11 @@ import { getEngines } from "../Services/EngineServices";
 export const EngineContext = createContext();
 
 export const EngineProvider = (props) => {
-	const [allEngines, setAllEngines] = useState([]);
+	const [data, setData] = useState([]);
 
 	const handleGetEngines = async () => {
 		const { data: engines } = await getEngines();
-		setAllEngines(engines);
+		setData(engines);
 	};
 
 	useEffect(() => {
@@ -16,7 +16,7 @@ export const EngineProvider = (props) => {
 	}, []);
 
 	return (
-		<EngineContext.Provider value={{ allEngines }}>
+		<EngineContext.Provider value={{ data }}>
 			{props.children}
 		</EngineContext.Provider>
 	);

@@ -3,11 +3,11 @@ import React from "react";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
 const ModalEdit = ({
-	editModal,
 	openCloseEditModal,
 	selectedEngine,
 	putData,
 	handleChange,
+	editModal,
 }) => {
 	return (
 		<Modal isOpen={editModal}>
@@ -56,10 +56,13 @@ const ModalEdit = ({
 				</div>
 			</ModalBody>
 			<ModalFooter>
-				<button className="btn btn-primary" onClick={() => putData()}>
+				<button className="btn btn-success" onClick={() => putData()}>
 					Save
 				</button>{" "}
-				<button className="btn btn-danger" onClick={() => openCloseEditModal()}>
+				<button
+					className="btn btn-outline-danger"
+					onClick={() => openCloseEditModal()}
+				>
 					Cancel
 				</button>
 			</ModalFooter>

@@ -2,7 +2,7 @@ import axios from "./AxiosServices";
 
 //Display all Registry
 export function getEngines() {
-	return axios.get("engine");
+	return axios.get("engine/");
 }
 
 //Edit the Registry
