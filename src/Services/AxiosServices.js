@@ -2,7 +2,7 @@ import axios from "axios";
 
 axios.interceptors.request.use(
 	(config) => {
-		config.baseURL = "http://localhost:5000/api/";
+		config.baseURL = "https://localhost:5001/api/";
 		return config;
 	},
 	(error) => {

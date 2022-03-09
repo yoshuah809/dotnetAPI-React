@@ -3,12 +3,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import ModalEdit from "./Components/ModalEdit";
 
 function App() {
 	const [data, setData] = useState([]);
-	const { engines, status } = useSelector((state) => state.engines);
 
 	const [selectedEngine, setSelectedEngine] = useState({
 		id: "",
