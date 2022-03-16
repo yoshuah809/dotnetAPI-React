@@ -31,19 +31,6 @@ const Home = () => {
 			[name]: value,
 		});
 	};
-	const baseUrl = "https://localhost:5001/api/engine/";
-
-	const fetchEngineData = () => {
-		axios.get(baseUrl).then((response) => {
-			try {
-				if (response.data) {
-					setData(response.data);
-				}
-			} catch (error) {
-				console.log(error.message);
-			}
-		});
-	};
 
 	const openCloseInsertModal = () => {
 		setInsertModal(!insertModal);
@@ -52,6 +39,8 @@ const Home = () => {
 	const openCloseEditModal = () => {
 		setEditModal(!editModal);
 	};
+
+	const baseUrl = "https://localhost:5001/api/engine/";
 
 	const putData = async () => {
 		selectedEngine.launched = parseInt(selectedEngine.launched);
@@ -95,7 +84,7 @@ const Home = () => {
 	};
 
 	useEffect(() => {
-		fetchEngineData();
+		LoadEngines();
 	}, []);
 
 	return (
