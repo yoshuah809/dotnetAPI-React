@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import { updateEngine, d } from "../Services/EngineServices";
 
 const ModalEdit = ({
 	openCloseEditModal,
@@ -9,9 +10,15 @@ const ModalEdit = ({
 	handleChange,
 	editModal,
 }) => {
+	const updateSelectedEngine = async (currentEngine) => {
+		const { data: engine } = await updateEngine(currentEngine);
+
+		// 	let newData = data.map((element) => (element.id === data.id ? data : element));
+		// 	setData(newData);
+	};
 	return (
 		<Modal isOpen={editModal}>
-			<ModalHeader>Edit Database Engine </ModalHeader>
+			<ModalHeader className="bg-success">Edit Database Engine </ModalHeader>
 			<ModalBody>
 				<div className="formgroup">
 					<label> ID: </label>
@@ -36,7 +43,7 @@ const ModalEdit = ({
 					<label> Launched: </label>
 					<br />
 					<input
-						type="text"
+						type="number"
 						className="form-control"
 						name="launched"
 						onChange={handleChange}

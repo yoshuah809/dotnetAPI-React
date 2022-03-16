@@ -8,6 +8,8 @@ import ModalEdit from "./ModalEdit";
 import { getEngines } from "../Services/EngineServices";
 
 const Home = () => {
+	const [insertModal, setInsertModal] = useState(false);
+	const [editModal, setEditModal] = useState(false);
 	const [data, setData] = useState([]);
 
 	const [selectedEngine, setSelectedEngine] = useState({
@@ -29,9 +31,6 @@ const Home = () => {
 			[name]: value,
 		});
 	};
-
-	const [insertModal, setInsertModal] = useState(false);
-	const [editModal, setEditModal] = useState(false);
 
 	const openCloseInsertModal = () => {
 		setInsertModal(!insertModal);
@@ -86,7 +85,6 @@ const Home = () => {
 
 	useEffect(() => {
 		LoadEngines();
-		console.log("this is printing from Context");
 	}, []);
 
 	return (
@@ -95,12 +93,12 @@ const Home = () => {
 				<br />
 				<br />
 				<button
-					className="btn btn-primary"
+					className="btn btn-outline-info"
 					onClick={() => openCloseInsertModal()}
 				>
-					Add Engine
+					ADD ENGINE
 				</button>
-				<h2>List of Database Engine</h2>
+				<h2>List of Database ENGINE</h2>
 				<table className="table table-default table-striped table-hover responsible ">
 					<thead>
 						<tr>
@@ -123,7 +121,7 @@ const Home = () => {
 										className="btn btn-outline-success"
 										onClick={() => selectEngine(engine, "Edit")}
 									>
-										Edit
+										Update
 									</button>{" "}
 									{"   "}
 									<button className="btn btn-outline-danger">Delete</button>

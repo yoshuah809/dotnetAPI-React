@@ -1,21 +1,20 @@
 import axios from "./AxiosServices";
 
-//Display all Registry
+//Create new Registry - Create
+export function addEngine(engine) {
+	return axios.post("engine/" + engine);
+}
+//Display all Registry (Read)
 export function getEngines() {
 	return axios.get("engine/");
 }
 
-//Edit the Registry
-export function deleteEngine(engine) {
+//Update the Registry (Update)
+export function updateEngine(engine) {
 	return axios.put("engine/" + engine);
 }
 
-//Create new Registry
-export function addEngine(engine) {
-	return axios.post("engine/" + engine);
-}
-
-//Delete the  Registry
+//Delete the  Registry (Delete)
 export function editEngine(engine) {
 	return axios.delete("engine/Delete/", engine);
 }

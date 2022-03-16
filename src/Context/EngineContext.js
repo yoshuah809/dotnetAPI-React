@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import { getEngines } from "../Services/EngineServices";
+import { getEngines, updateEngine } from "../Services/EngineServices";
 
 export const EngineContext = createContext();
 
@@ -9,6 +9,13 @@ export const EngineProvider = (props) => {
 	const handleGetEngines = async () => {
 		const { data: engines } = await getEngines();
 		setData(engines);
+	};
+
+	const handleUpdateEngine = async (engine) => {
+		//console.log(movie.movieId);
+		await updateEngine({
+			//Code goes here
+		});
 	};
 
 	useEffect(() => {
