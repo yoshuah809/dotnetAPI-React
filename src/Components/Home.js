@@ -1,103 +1,27 @@
-import React from "react";
-import axios from "axios";
-import { useEffect, useState } from "react";
-
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import ModalEdit from "./ModalEdit";
+import ModalDelete from "./ModalDelete";
 
-import { getEngines } from "../Services/EngineServices";
+import { useContext } from "react";
+import { DataContext } from "../Context/DataContext";
+import { useDispatch } from "react-redux";
 
 const Home = () => {
-	const [insertModal, setInsertModal] = useState(false);
-	const [editModal, setEditModal] = useState(false);
-	const [data, setData] = useState([]);
-
-	const [selectedEngine, setSelectedEngine] = useState({
-		id: "",
-		name: "",
-		launched: "",
-		developer: "",
-	});
-
-	const LoadEngines = async () => {
-		const { data: engines } = await getEngines();
-		setData(engines);
-	};
-
-	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setSelectedEngine({
-			...selectedEngine,
-			[name]: value,
-		});
-	};
-	const baseUrl = "https://localhost:5001/api/engine/";
-
-	const fetchEngineData = () => {
-		axios.get(baseUrl).then((response) => {
-			try {
-				if (response.data) {
-					setData(response.data);
-				}
-			} catch (error) {
-				console.log(error.message);
-			}
-		});
-	};
-
-	const openCloseInsertModal = () => {
-		setInsertModal(!insertModal);
-	};
-
-	const openCloseEditModal = () => {
-		setEditModal(!editModal);
-	};
-
-	const putData = async () => {
-		selectedEngine.launched = parseInt(selectedEngine.launched);
-		await axios
-			.put(baseUrl + selectedEngine.id, selectedEngine)
-			.then((response) => {
-				var resp = response.data;
-				var tmpData = data;
-				tmpData.map((engine) => {
-					if (engine.id === selectedEngine.id) {
-						engine.name = resp.name;
-						engine.launched = resp.launched;
-						engine.developer = resp.developer;
-					}
-					return engine;
-				});
-				openCloseEditModal();
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
-
-	const postData = async () => {
-		delete selectedEngine.id;
-		selectedEngine.launched = parseInt(selectedEngine.launched);
-		await axios
-			.post(baseUrl, selectedEngine)
-			.then((response) => {
-				setData(data.concat(response.data));
-				openCloseInsertModal();
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-	};
-
-	const selectEngine = (engine, operation) => {
-		setSelectedEngine(engine);
-		operation === "Edit" && openCloseEditModal();
-	};
-
-	useEffect(() => {
-		fetchEngineData();
-	}, []);
-
+	const {
+		data,
+		openCloseInsertModal,
+		selectEngine,
+		insertModal,
+		handleChange,
+		putData,
+		postData,
+		editModal,
+		openCloseEditModal,
+		selectedEngine,
+		openCloseDeleteModal,
+		deleteModal,
+		deleteEngine,
+	} = useContext(DataContext);
 	return (
 		<div className="App mt-4 py-3">
 			<div className="container">
@@ -135,7 +59,12 @@ const Home = () => {
 										Update
 									</button>{" "}
 									{"   "}
-									<button className="btn btn-outline-danger">Delete</button>
+									<button
+										onClick={() => selectEngine(engine)}
+										className="btn btn-outline-danger"
+									>
+										Delete
+									</button>
 								</td>
 							</tr>
 						))}
@@ -196,6 +125,13 @@ const Home = () => {
 				handleChange={handleChange}
 				putData={putData}
 				editModal={editModal}
+			/>
+
+			<ModalDelete
+				openCloseDeleteModal={openCloseDeleteModal}
+				deleteModal={deleteModal}
+				selectedEngine={selectedEngine}
+				deleteEngine={deleteEngine}
 			/>
 		</div>
 	);

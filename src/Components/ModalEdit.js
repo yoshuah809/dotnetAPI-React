@@ -1,7 +1,6 @@
 import React from "react";
 
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
-import { updateEngine, d } from "../Services/EngineServices";
 
 const ModalEdit = ({
 	openCloseEditModal,
@@ -10,12 +9,6 @@ const ModalEdit = ({
 	handleChange,
 	editModal,
 }) => {
-	const updateSelectedEngine = async (currentEngine) => {
-		const { data: engine } = await updateEngine(currentEngine);
-
-		// 	let newData = data.map((element) => (element.id === data.id ? data : element));
-		// 	setData(newData);
-	};
 	return (
 		<Modal isOpen={editModal}>
 			<ModalHeader className="bg-success">Edit Database Engine </ModalHeader>

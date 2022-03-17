@@ -5,12 +5,12 @@ import App from "./App";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import "./bootstrap.min.css";
-import { EngineProvider } from "./Context/EngineContext";
+import { DataProvider } from "./Context/DataContext";
 
 ReactDOM.render(
-	<EngineProvider>
+	<DataProvider>
 		<App />
-	</EngineProvider>,
+	</DataProvider>,
 
 	document.getElementById("root")
 );
