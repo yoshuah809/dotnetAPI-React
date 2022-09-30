@@ -38,7 +38,7 @@ export const DataProvider = (props) => {
 		setDeleteModal(!deleteModal);
 	};
 
-	const baseUrl = "https://localhost:5001/api/engine/";
+	const baseUrl = "https://localhost:44383/api/engine/";
 
 	const fetchEngineData = () => {
 		axios.get(baseUrl).then((response) => {
